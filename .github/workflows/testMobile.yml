@@ -3,25 +3,36 @@ name: EBAC CI Mobile
 on:
   push:
     branches: [ ci ]
-
   workflow_dispatch:
 
 jobs:
- 
   test:
-
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
           node-version: '14'
+      
+      - name: Set environment variable to skip Chromedriver install
+        run: echo "APPIUM_SKIP_CHROMEDRIVER_INSTALL=true" >> $GITHUB_ENV
+
       - name: Install Dependencies
-        run: npm i
+        run: npm install
+      
       - name: Run Tests
-        run: npm t
-      - name: Publish Report
+        run: npm test
+      
+      - name: Generate Allure Report
+        run: |
+          npx allure generate allure-results --clean -o allure-report
+          npx allure open allure-report
+      
+      - name: Publish Allure Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
