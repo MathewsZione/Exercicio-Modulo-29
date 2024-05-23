@@ -15,10 +15,9 @@ let capabilities = process.env.PLATFORM === 'android' ? {
 } : {
     capabilities: [{
         "platformName": "iOS",
-        "appium:platformVersion": "17",
-        "appium:deviceName": "iPhone Simulator",
-        "appium:automationName": "XCUITest",
-        "appium:app": "storage:filename=loja-ebac.app.zip",
+        'appium:app': 'storage:filename=loja-ebac.ipa', // The filename of the mobile app
+        'appium:deviceName': 'iPhone XR',
+        'appium:automationName': 'XCUITest',
         "sauce:options" : {
            "name" : "Teste Login EBAC iOS"
         }
