@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx wdio run ./config/wdio.conf.js",
-    "report": "npx allure open allure-report"
+    "test": "wdio run ./config/wdio.conf.js",
+    "test:login": "wdio run ./config/wdio.conf.js --suite login",
+    "test:product": "wdio run ./config/wdio.conf.js --suite product",
+    "test:search": "wdio run ./config/wdio.conf.js --suite search",
+    "posttest": "npm run report",
+    "report": "allure generate allure-results"
   },
   "keywords": [],
   "author": "",
