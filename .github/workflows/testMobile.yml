@@ -3,36 +3,28 @@ name: EBAC CI Mobile
 on:
   push:
     branches: [ ci ]
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This workflow contains a single job called "build"
   test:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '14'
-      
-      - name: Set environment variable to skip Chromedriver install
-        run: echo "APPIUM_SKIP_CHROMEDRIVER_INSTALL=true" >> $GITHUB_ENV
-
+          node-version: '21'
       - name: Install Dependencies
-        run: npm install
-      
+        run: npm i
       - name: Run Tests
-        run: npm test
-      
-      - name: Generate Allure Report
-        run: |
-          npx allure generate allure-results --clean -o allure-report
-          npx allure open allure-report
-      
-      - name: Publish Allure Report to GitHub Pages
+        run: npm t
+      - name: Publish Report
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
